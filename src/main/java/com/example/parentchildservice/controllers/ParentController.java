@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.parentchildservice.helper.Constants.BASE_URL;
@@ -21,7 +22,7 @@ public class ParentController {
     private ParentService parentService;
 
     @Autowired
-    private UtilityService UtilityService;
+    private UtilityService utilityService;
 
     @GetMapping("/")
     public String welcome() {
@@ -31,13 +32,15 @@ public class ParentController {
     @GetMapping("/all")
     public ParentResponse getAllParentsData(@RequestParam("page") Integer page) {
         try {
-            ArrayList<Object> jsonArray = new ArrayList<>((Collection) parentService.getAllParentsMap().get("data"));
+            ArrayList<Map<String, Object>> jsonArray = new ArrayList<>((Collection) parentService.getAllParentsMap().get("data"));
             int fromPage = page * 2;
             int toPage = (page * 2) + 2 > jsonArray.size() ? jsonArray.size() : (page * 2) + 2;
 
-            ArrayList<Map<String, Object>> children = UtilityService.getChildObjects(1);
+            List<Map<String, Object>> paginatedData = jsonArray.subList(fromPage, toPage);
 
-            return new ParentResponse(jsonArray.subList(fromPage, toPage), jsonArray.size());
+            paginatedData.stream().forEach(item -> item.put("child", utilityService.getChildObjects(Integer.valueOf(item.get("id").toString()))));
+
+            return new ParentResponse(paginatedData, jsonArray.size());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
