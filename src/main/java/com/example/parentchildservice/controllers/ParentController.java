@@ -29,7 +29,7 @@ public class ParentController {
         return "HELLO WORLD";
     }
 
-    @GetMapping("/all")
+    @GetMapping("/paginate")
     public ParentResponse getAllParentsData(@RequestParam("page") Integer page) {
         try {
             ArrayList<Map<String, Object>> jsonArray = new ArrayList<>((Collection) parentService.getAllParentsMap().get("data"));
