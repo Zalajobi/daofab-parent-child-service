@@ -30,6 +30,6 @@ public class ChildController {
 
         List<Map<String, Object>> childData = utilityService.getChildObjects(parentId);
 
-        return new ChildResponse(childData, 10, childService.getParentDataById(parentId).get("parent"));
+        return new ChildResponse(childData, childData.size(), childService.getParentDataById(parentId).get("parent"));
     }
 }
