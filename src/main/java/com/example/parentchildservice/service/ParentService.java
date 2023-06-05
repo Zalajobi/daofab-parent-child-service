@@ -1,5 +1,6 @@
 package com.example.parentchildservice.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,14 @@ import java.util.Map;
 @Service
 public class ParentService {
 
+//    public Object[] getAllParentsMap() throws IOException {
     public Map<String, Object> getAllParentsMap() throws IOException {
-        ClassPathResource staticDataResource = new ClassPathResource("/data/Parent.json");
-        String staticDataString = IOUtils.toString(staticDataResource.getInputStream(), StandardCharsets.UTF_8);
+        ClassPathResource dataResource = new ClassPathResource("/data/Parent.json");
 
-        return new JSONObject(staticDataString).toMap();
+        String jsonData = IOUtils.toString(dataResource.getInputStream(), StandardCharsets.UTF_8);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return new JSONObject(jsonData).toMap();
     }
 }
