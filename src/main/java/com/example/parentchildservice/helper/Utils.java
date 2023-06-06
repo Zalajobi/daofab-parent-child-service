@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class Utils {
+    // Get a file route, stream the data and return stream of the data
     public String getJsonResourceData(String route) {
         try {
             ClassPathResource dataResource = new ClassPathResource(route);

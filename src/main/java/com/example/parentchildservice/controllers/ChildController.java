@@ -25,9 +25,11 @@ public class ChildController {
     @Autowired
     private UtilityService utilityService;
 
+//    Child Conntroller
     @GetMapping("/")
     public ChildResponse getAllChildComponent(@RequestParam("parentId") Integer parentId) throws IOException {
 
+        // Get Child information and Parent data also
         List<Map<String, Object>> childData = utilityService.getChildObjects(parentId);
 
         return new ChildResponse(childData, childData.size(), childService.getParentDataById(parentId).get("parent"));
